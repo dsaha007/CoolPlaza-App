@@ -22,14 +22,13 @@ mongoose
 
 const app = express();
 
-// Enable CORS for all routes
-app.use(
-  cors({
-    origin: "https://cool-plaza.onrender.com", // Your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    credentials: true, // Enable cookies/sessions if needed
-  })
-);
+const corsOption = {
+  origin: "https://cool-plaza.onrender.com",
+  methods: "GET, PUT, POST, PATCH, HEAD, DELETE",
+  credentials: true,
+};
+
+app.use(cors(corsOption));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
