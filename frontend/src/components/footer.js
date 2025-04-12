@@ -8,7 +8,7 @@ function Footer() {
     <footer className="mt-5 py-3 bg-light">
       <Container>
         <Row>
-          <Col className="text-center">
+          <Col className="text-center" style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>
             Created by Debayan Saha © all rights reserved!
           </Col>
         </Row>
