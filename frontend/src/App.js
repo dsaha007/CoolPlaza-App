@@ -126,16 +126,16 @@ function App() {
                   )}
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown title="Admin" id="admin-nav-dropdown">
-                      <LinkContainer to={`${process.env.REACT_APP_API_URL}/admin/dashboard`}>
+                      <LinkContainer to="/admin/dashboard">
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to={`${process.env.REACT_APP_API_URL}/admin/products`}>
+                      <LinkContainer to="/admin/products">
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to={`${process.env.REACT_APP_API_URL}/admin/orders`}>
+                      <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to={`${process.env.REACT_APP_API_URL}/admin/users`}>
+                      <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -225,47 +225,47 @@ function App() {
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               {/* Admin Routes */}
               <Route
-                path={`${process.env.REACT_APP_API_URL}/admin/dashboard`}>
+                path="/admin/dashboard"
                 element={
                   <AdminRoute>
                     <DashboardScreen />
                   </AdminRoute>
                 }
-              </Route>
+              ></Route>
               <Route
-                path={`${process.env.REACT_APP_API_URL}/admin/orders`}>
+                path="/admin/orders"
                 element={
                   <AdminRoute>
                     <OrderListScreen />
                   </AdminRoute>
                 }
-              </Route>
+              ></Route>
               <Route
-                path={`${process.env.REACT_APP_API_URL}/admin/users`}>
+                path="/admin/users"
                 element={
                   <AdminRoute>
                     <UserListScreen />
                   </AdminRoute>
                 }
-              </Route>
+              ></Route>
               <Route
-                path={`${process.env.REACT_APP_API_URL}/admin/products`}>
+                path="/admin/products"
                 element={
                   <AdminRoute>
                     <ProductListScreen />
                   </AdminRoute>
                 }
-              </Route>
+              ></Route>
               <Route
-                path={`${process.env.REACT_APP_API_URL}/admin/product/:id`}>
+                path="/admin/product/:id"
                 element={
                   <AdminRoute>
                     <ProductEditScreen />
                   </AdminRoute>
                 }
-              </Route>
+              ></Route>
               <Route
-                path={`${process.env.REACT_APP_API_URL}/admin/user/:id`}
+                path="/admin/user/:id"
                 element={
                   <AdminRoute>
                     <UserEditScreen />
