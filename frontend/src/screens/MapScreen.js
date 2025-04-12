@@ -28,38 +28,61 @@ export default function MapScreen() {
 
   const getUserCurrentLocation = () => {
     if (!navigator.geolocation) {
-      alert('Geolocation os not supported by this browser');
+      alert('Geolocation is not supported by this browser');
     } else {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-        setLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+          setLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          toast.error('Could not get your location');
+          console.error('Geolocation error:', error);
+        }
+      );
     }
   };
+
   useEffect(() => {
+    let isMounted = true;
+    
     const fetch = async () => {
-      const { data } = await axios('/api/keys/google', {
-        headers: { Authorization: `BEARER ${userInfo.token}` },
-      });
-      setGoogleApiKey(data.key);
-      getUserCurrentLocation();
+      try {
+        const { data } = await axios('/api/keys/google', {
+          headers: { Authorization: `BEARER ${userInfo.token}` },
+        });
+        if (isMounted) {
+          setGoogleApiKey(data.key);
+          getUserCurrentLocation();
+        }
+      } catch (error) {
+        if (isMounted) {
+          toast.error('Failed to load Google Maps API key');
+          console.error('API key fetch error:', error);
+        }
+      }
     };
 
     fetch();
     ctxDispatch({
       type: 'SET_FULLBOX_ON',
     });
-  }, [ctxDispatch]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [ctxDispatch, userInfo.token]);
 
   const onLoad = (map) => {
     mapRef.current = map;
   };
+
   const onIdle = () => {
     setLocation({
       lat: mapRef.current.center.lat(),
@@ -70,6 +93,7 @@ export default function MapScreen() {
   const onLoadPlaces = (place) => {
     placeRef.current = place;
   };
+
   const onPlacesChanged = () => {
     const place = placeRef.current.getPlaces()[0].geometry.location;
     setCenter({ lat: place.lat(), lng: place.lng() });
@@ -81,26 +105,31 @@ export default function MapScreen() {
   };
 
   const onConfirm = () => {
-    const places = placeRef.current.getPlaces() || [{}];
-    ctxDispatch({
-      type: 'SAVE_SHIPPING_ADDRESS_MAP_LOCATION',
-      payload: {
-        lat: location.lat,
-        lng: location.lng,
-        address: places[0].formatted_address,
-        name: places[0].name,
-        vicinity: places[0].vicinity,
-        googleAddressId: places[0].id,
-      },
-    });
-    toast.success('location selected successfully.');
-    navigate('/shipping');
+    const places = placeRef.current.getPlaces();
+    if (places && places.length > 0) {
+      ctxDispatch({
+        type: 'SAVE_SHIPPING_ADDRESS_MAP_LOCATION',
+        payload: {
+          lat: location.lat,
+          lng: location.lng,
+          address: places[0].formatted_address,
+          name: places[0].name,
+          vicinity: places[0].vicinity,
+          googleAddressId: places[0].id,
+        },
+      });
+      toast.success('Location selected successfully.');
+      navigate('/shipping');
+    } else {
+      toast.error('Please select a valid location');
+    }
   };
+
   return (
     <div className="full-box">
       <LoadScript libraries={libs} googleMapsApiKey={googleApiKey}>
         <GoogleMap
-          id="smaple-map"
+          id="sample-map"
           mapContainerStyle={{ height: '100%', width: '100%' }}
           center={center}
           zoom={15}

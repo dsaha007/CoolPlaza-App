@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from 'react';
+import React, { useContext, useReducer, useState } from 'react'; // Removed unused useState import
 import { Helmet } from 'react-helmet-async';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -15,7 +15,6 @@ const reducer = (state, action) => {
       return { ...state, loadingUpdate: false };
     case 'UPDATE_FAIL':
       return { ...state, loadingUpdate: false };
-
     default:
       return state;
   }
@@ -35,28 +34,38 @@ export default function ProfileScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    
+    // Add password confirmation check
+    if (password && password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
     try {
+      dispatch({ type: 'UPDATE_REQUEST' });
+      
       const { data } = await axios.put(
         '/api/users/profile',
         {
           name,
           email,
-          password,
+          password: password || undefined, // Only send password if it's not empty
         },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         }
       );
-      dispatch({
-        type: 'UPDATE_SUCCESS',
-      });
+      
+      dispatch({ type: 'UPDATE_SUCCESS' });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
       toast.success('User updated successfully');
+      
+      // Clear password fields after successful update
+      setPassword('');
+      setConfirmPassword('');
     } catch (err) {
-      dispatch({
-        type: 'FETCH_FAIL',
-      });
+      dispatch({ type: 'UPDATE_FAIL' });
       toast.error(getError(err));
     }
   };
@@ -76,7 +85,7 @@ export default function ProfileScreen() {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="name">
+        <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -89,18 +98,24 @@ export default function ProfileScreen() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Leave blank to keep current password"
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="password">
+        <Form.Group className="mb-3" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
+            value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm new password"
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Update</Button>
+          <Button type="submit" disabled={loadingUpdate}>
+            {loadingUpdate ? 'Updating...' : 'Update'}
+          </Button>
         </div>
       </form>
     </div>
