@@ -25,6 +25,8 @@ const productSchema = new mongoose.Schema(
     rating: { type: Number, required: true },
     numReviews: { type: Number, required: true },
     reviews: [reviewSchema],
+    promoCode: { type: String, default: null },
+    discount: { type: Number, default: 0 }, // Discount in percentage
   },
   {
     timestamps: true,

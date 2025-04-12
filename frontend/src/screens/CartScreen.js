@@ -101,12 +101,23 @@ export default function CartScreen() {
           <Card>
             <Card.Body>
               <ListGroup variant="flush">
+              // filepath: d:\PROJECT\mern-ecommerce\frontend\src\screens\CartScreen.js
                 <ListGroup.Item>
                   <h3>
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
-                    items) : $
-                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
+                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0).toFixed(2)}
                   </h3>
+                  {promoCode && (
+                    <h4>
+                      Discount Applied: -$
+                      {cartItems.reduce(
+                        (a, c) =>
+                          a +
+                          (c.promoCode === promoCode ? (c.discount / 100) * c.price : 0),
+                        0
+                      ).toFixed(2)}
+                    </h4>
+                  )}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <div className="d-grid">
