@@ -121,7 +121,7 @@ export default function UserListScreen() {
                   <Button
                     type="button"
                     variant="light"
-                    onClick={() => navigate(`${process.env.REACT_APP_API_URL}/admin/user/${user._id}`)}
+                    onClick={() => navigate("/admin/user/${user._id}")}
                   >
                     Edit
                   </Button>
