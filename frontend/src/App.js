@@ -126,16 +126,16 @@ function App() {
                   )}
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown title="Admin" id="admin-nav-dropdown">
-                      <LinkContainer to="/admin/dashboard">
+                      <LinkContainer to="${process.env.REACT_APP_API_URL}/admin/dashboard">
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/products">
+                      <LinkContainer to="${process.env.REACT_APP_API_URL}/admin/products">
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/orders">
+                      <LinkContainer to="${process.env.REACT_APP_API_URL}/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/users">
+                      <LinkContainer to="${process.env.REACT_APP_API_URL}/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -225,7 +225,7 @@ function App() {
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               {/* Admin Routes */}
               <Route
-                path="/admin/dashboard"
+                path="${process.env.REACT_APP_API_URL}/admin/dashboard"
                 element={
                   <AdminRoute>
                     <DashboardScreen />
@@ -233,7 +233,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/orders"
+                path="${process.env.REACT_APP_API_URL}/admin/orders"
                 element={
                   <AdminRoute>
                     <OrderListScreen />
@@ -241,7 +241,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/users"
+                path="${process.env.REACT_APP_API_URL}/admin/users"
                 element={
                   <AdminRoute>
                     <UserListScreen />
@@ -249,7 +249,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/products"
+                path="${process.env.REACT_APP_API_URL}/admin/products"
                 element={
                   <AdminRoute>
                     <ProductListScreen />
@@ -257,7 +257,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/product/:id"
+                path="${process.env.REACT_APP_API_URL}/admin/product/:id"
                 element={
                   <AdminRoute>
                     <ProductEditScreen />
@@ -265,7 +265,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/user/:id"
+                path="${process.env.REACT_APP_API_URL}/admin/user/:id"
                 element={
                   <AdminRoute>
                     <UserEditScreen />
