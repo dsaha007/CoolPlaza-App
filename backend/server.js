@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors"; // <-- Add this line
 import seedRouter from "./routes/seedRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import userRouter from "./routes/userRoutes.js";
@@ -21,9 +22,19 @@ mongoose
 
 const app = express();
 
+// Enable CORS for all routes
+app.use(
+  cors({
+    origin: "https://cool-plaza.onrender.com", // Your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // Enable cookies/sessions if needed
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ... (rest of your existing routes)
 app.get("/api/keys/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || "sb");
 });
