@@ -54,7 +54,7 @@ export default function MapScreen() {
     
     const fetch = async () => {
       try {
-        const { data } = await axios('/api/keys/google', {
+        const { data } = await axios(`${process.env.REACT_APP_API_URL}/api/keys/google`, {
           headers: { Authorization: `BEARER ${userInfo.token}` },
         });
         if (isMounted) {
