@@ -5,11 +5,11 @@ import Col from 'react-bootstrap/Col';
 
 function Footer() {
   return (
-    <footer className="mt-5 py-3 bg-light">
+    <footer className="mt-5 py-3 bg-dark text-light">
       <Container>
         <Row>
-          <Col className="text-center" style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>
-            Created by Debayan Saha © all rights reserved!
+          <Col className="text-center" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+            Created by Debayan Saha © {new Date().getFullYear()} All rights reserved!
           </Col>
         </Row>
       </Container>
