@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react'; // Added useState
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Form from 'react-bootstrap/Form'; // Import Form
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import { Store } from '../Store';
@@ -35,6 +36,8 @@ export default function PlaceOrderScreen() {
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+
+  const [promoCode, setPromoCode] = useState(''); // Added useState for promoCode
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
   cart.itemsPrice = round2(
@@ -147,8 +150,8 @@ export default function PlaceOrderScreen() {
               <Form.Control
                 type="text"
                 placeholder="Enter promo code"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
+                value={promoCode} // Use promoCode state
+                onChange={(e) => setPromoCode(e.target.value)} // Update promoCode state
               />
             </Card.Body>
           </Card>

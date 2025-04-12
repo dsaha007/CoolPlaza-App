@@ -13,11 +13,9 @@ import axios from 'axios';
 export default function CartScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const {
-    cart: { cartItems },
-  } = state;
-  const promoCode = cart.promoCode || ''; // Fetch promoCode from the cart state'
-  
+  const { cart } = state; // Destructure the entire cart object
+  const { cartItems, promoCode } = cart; // Extract cartItems and promoCode from cart
+
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${item._id}`);
     if (data.countInStock < quantity) {
@@ -29,6 +27,7 @@ export default function CartScreen() {
       payload: { ...item, quantity },
     });
   };
+
   const removeItemHandler = (item) => {
     ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
@@ -102,7 +101,6 @@ export default function CartScreen() {
           <Card>
             <Card.Body>
               <ListGroup variant="flush">
-              // filepath: d:\PROJECT\mern-ecommerce\frontend\src\screens\CartScreen.js
                 <ListGroup.Item>
                   <h3>
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
