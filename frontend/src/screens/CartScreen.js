@@ -16,7 +16,8 @@ export default function CartScreen() {
   const {
     cart: { cartItems },
   } = state;
-
+  const promoCode = cart.promoCode || ''; // Fetch promoCode from the cart state'
+  
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${item._id}`);
     if (data.countInStock < quantity) {
