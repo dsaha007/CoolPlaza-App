@@ -23,7 +23,7 @@ mongoose
 const app = express();
 
 const corsOption = {
-  origin: ["https://cool-plaza.onrender.com", "http://localhost:3000"], // Allow frontend domains
+  origin: "https://cool-plaza.onrender.com",
   methods: "GET, PUT, POST, PATCH, HEAD, DELETE",
   credentials: true,
 };
