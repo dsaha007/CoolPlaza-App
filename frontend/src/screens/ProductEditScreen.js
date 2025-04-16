@@ -68,7 +68,7 @@ export default function ProductEditScreen() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${productId}`);
+        const { data } = await axios.get(`{process.env.REACT_APP_API_URL}/api/products/${productId}`);
         setName(data.name);
         setSlug(data.slug);
         setPrice(data.price);
@@ -115,7 +115,7 @@ export default function ProductEditScreen() {
         type: 'UPDATE_SUCCESS',
       });
       toast.success('Product updated successfully');
-      navigate("/admin/products");
+      navigate('/admin/products');
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: 'UPDATE_FAIL' });
@@ -127,7 +127,7 @@ export default function ProductEditScreen() {
     bodyFormData.append('file', file);
     try {
       dispatch({ type: 'UPLOAD_REQUEST' });
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, bodyFormData, {
+      const { data } = await axios.post('{process.env.REACT_APP_API_URL}/api/upload', bodyFormData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           authorization: `Bearer ${userInfo.token}`,

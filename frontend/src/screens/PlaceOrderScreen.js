@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useContext, useEffect, useReducer, useState } from 'react'; // Added useState
+import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Form from 'react-bootstrap/Form'; // Import Form
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import { Store } from '../Store';
@@ -37,8 +36,6 @@ export default function PlaceOrderScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
-  const [promoCode, setPromoCode] = useState(''); // Added useState for promoCode
-
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
@@ -54,17 +51,13 @@ export default function PlaceOrderScreen() {
       const { data } = await Axios.post(
         `${process.env.REACT_APP_API_URL}/api/orders`,
         {
-          orderItems: cart.cartItems.map((item) => ({
-            ...item,
-            product: item._id, // Include the product ID
-          })),
+          orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,
           paymentMethod: cart.paymentMethod,
           itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
-          promoCode: cart.promoCode,
         },
         {
           headers: {
@@ -144,18 +137,6 @@ export default function PlaceOrderScreen() {
                 ))}
               </ListGroup>
               <Link to="/cart">Edit</Link>
-            </Card.Body>
-          </Card>
-
-          <Card className="mb-3">
-            <Card.Body>
-              <Card.Title>Promo Code</Card.Title>
-              <Form.Control
-                type="text"
-                placeholder="Enter promo code"
-                value={promoCode} // Use promoCode state
-                onChange={(e) => setPromoCode(e.target.value)} // Update promoCode state
-              />
             </Card.Body>
           </Card>
         </Col>

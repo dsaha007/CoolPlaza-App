@@ -21,21 +21,8 @@ orderRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const { orderItems, promoCode } = req.body;
-
-    const updatedOrderItems = await Promise.all(
-      orderItems.map(async (item) => {
-        const product = await Product.findById(item.product);
-        if (product && product.promoCode === promoCode) {
-          const discount = (product.discount / 100) * item.price;
-          item.price -= discount; // Apply discount
-        }
-        return item;
-      })
-    );
-
     const newOrder = new Order({
-      orderItems: updatedOrderItems,
+      orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
       shippingAddress: req.body.shippingAddress,
       paymentMethod: req.body.paymentMethod,
       itemsPrice: req.body.itemsPrice,
