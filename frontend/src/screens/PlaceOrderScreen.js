@@ -54,14 +54,17 @@ export default function PlaceOrderScreen() {
       const { data } = await Axios.post(
         `${process.env.REACT_APP_API_URL}/api/orders`,
         {
-          orderItems: cart.cartItems,
+          orderItems: cart.cartItems.map((item) => ({
+            ...item,
+            product: item._id, // Include the product ID
+          })),
           shippingAddress: cart.shippingAddress,
           paymentMethod: cart.paymentMethod,
           itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
-          promoCode: cart.promoCode, 
+          promoCode: cart.promoCode,
         },
         {
           headers: {
