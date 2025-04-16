@@ -61,7 +61,7 @@ export default function PlaceOrderScreen() {
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
-          promoCode, // Include promo code
+          promoCode: cart.promoCode, 
         },
         {
           headers: {
