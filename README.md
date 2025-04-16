@@ -3,7 +3,7 @@
   <h1>Cool Plaza - Your Ultimate Online Shopping Destination</h1>
   
   <p>
-    <a href="https://github.com/dsaha007/cool-plaza/blob/main/LICENSE" target="_blank">
+    <a href="https://github.com/dsaha007/cool-plaza/main/LICENSE" target="_blank">
       <img src="https://img.shields.io/github/license/dsaha007/CoolPlaza-App?style=flat-square" alt="License">
     </a>
     <a href="https://cool-plaza.onrender.com/" target="_blank">
